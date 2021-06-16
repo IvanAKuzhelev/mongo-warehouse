@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "tsc && node app.js",
+    "db-init": "node DUMMY_DB/runOnce.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "iak",

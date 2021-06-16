@@ -1,0 +1,14 @@
+import mongoose from "mongoose";
+const { Schema } = mongoose;
+const schema = new Schema({
+    name: { type: String, required: true },
+    price: { type: Number, required: true },
+    count: { type: Number, required: true },
+    imageUrl: { type: String, required: false },
+});
+const product = mongoose.model("product", schema);
+mongoose.connect("mongodb://localhost:27017/warehouse", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
+export default product;

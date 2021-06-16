@@ -1,34 +1,18 @@
 import express from "express";
-import mongoose from "mongoose";
 import cors from "cors";
+import mongoose from "mongoose";
+import product from "./src/createProductModel.js";
+import handleUpdate from "./src/updateById.js";
 const { Schema } = mongoose;
 const app = express();
 const port = 3333;
 app.use(cors());
 app.use(express.json());
-const schema = new Schema({
-    name: { type: String, required: true },
-    price: { type: Number, required: true },
-    count: { type: Number, required: true },
-    imageUrl: { type: String, required: false },
-});
-const product = mongoose.model("product", schema);
-mongoose.connect("mongodb://localhost:27017/warehouse", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => { });
 app.get("/", (req, res) => {
-    product
-        .find((err, products) => {
-        if (err)
-            console.log(err);
-        res.send(products);
-    })
-        .limit(25)
-        .select("-__v");
+    res.send("<h1>Hello<h1>");
 });
 app.get("/images/:id", (req, res) => { });
 app.get("/products", (req, res) => {
@@ -77,7 +61,8 @@ app.get("/products/:id", (req, res) => {
         res.send(product);
     });
 });
-app.patch("/products/:id", (req, res) => {
+app.patch("/products/:id", handleUpdate);
+app.post("/products/:id", (req, res) => {
     let pendingProduct;
     product
         .find({ _id: req.params.id }, (err, product) => {
