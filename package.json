@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "concurrently -k -c \"cyan.bold,green.bold\" \"tsc --watch\" \"nodemon dist/app.js\"",
-    "db-init": "node DUMMY_DB/runOnce.js",
+    "db-init": "node src/DUMMY_DB/runOnce.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "iak",
