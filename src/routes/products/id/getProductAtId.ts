@@ -1,5 +1,5 @@
-import product from "../../../createProductModel";
-import { IProduct } from "../../../createProductModel";
+import product from "../../../db/createProductModel";
+import { IProduct } from "../../../db/createProductModel";
 import { Request, Response } from "express";
 import { CallbackError } from "mongoose";
 const getProductAtId = (req: Request, res: Response) => {

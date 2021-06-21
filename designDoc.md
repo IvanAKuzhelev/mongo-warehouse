@@ -10,8 +10,8 @@
 [x] new name
 [x] new product
 [x] delete product
-[] upload foto
-[] gridFS
+[x] upload foto
+[x] gridFS
 [] dockerize server
 products/present?maxprice=50&present=true&search=fru
 60c8a4da886c8d35a0ef1f53 -working
@@ -20,3 +20,4 @@ products/present?maxprice=50&present=true&search=fru
 "price": {"old": 44, "new": 22},"count": {"old": 42, "new": 38}}
 {"name": {"old": "fruits 8129", "new": "some fruit"},
 "price": {"old": 44, "new": 22},"count": {"old": 42, "new": 38}}
+60c8a4d9886c8d35a0ef02b0

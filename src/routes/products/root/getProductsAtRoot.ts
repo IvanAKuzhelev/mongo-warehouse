@@ -1,5 +1,5 @@
-import product from "../../../createProductModel";
-import { IProduct } from "../../../createProductModel";
+import product from "../../../db/createProductModel";
+import { IProduct } from "../../../db/createProductModel";
 import { Request, Response } from "express";
 const getProductsAtRoot = (req: Request, res: Response) => {
   const dbquery: {
@@ -22,14 +22,18 @@ const getProductsAtRoot = (req: Request, res: Response) => {
     items: [],
   };
   const asyncDbquery = async () => {
-    await product.countDocuments(dbquery, (err, docCount) => {
-      console.log(docCount);
-      data.totalCount = docCount;
-      console.log(data);
-    }),
-      await product
+    await Promise.all([
+      product.countDocuments(dbquery, (err, docCount) => {
+        if (err) {
+          console.log(err);
+        }
+        data.totalCount = docCount;
+      }),
+      product
         .find(dbquery, (err, products) => {
-          if (err) console.log(err);
+          if (err) {
+            console.log(err);
+          }
 
           data.items = products;
         })
@@ -39,7 +43,8 @@ const getProductsAtRoot = (req: Request, res: Response) => {
             ? (Number(req.query.page) - 1) * itemsPerPage
             : 0
         )
-        .limit(itemsPerPage);
+        .limit(itemsPerPage),
+    ]);
   };
   asyncDbquery().then(() => res.send(data));
 };
