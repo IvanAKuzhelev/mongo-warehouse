@@ -22,30 +22,23 @@ const getProductsAtRoot = (req: Request, res: Response) => {
     items: [],
   };
   const asyncDbquery = async () => {
-    await Promise.all([
-      product.countDocuments(dbquery, (err, docCount) => {
-        if (err) {
-          console.log(err);
-        }
-        data.totalCount = docCount;
-      }),
-      product
-        .find(dbquery, (err, products) => {
-          if (err) {
-            console.log(err);
-          }
-
-          data.items = products;
-        })
+    try {
+      data.totalCount = await product.countDocuments(dbquery).exec();
+      data.items = await product
+        .find(dbquery)
         .sort({ price: -1, _id: 1 })
         .skip(
           Number(req.query.page) > 0
             ? (Number(req.query.page) - 1) * itemsPerPage
             : 0
         )
-        .limit(itemsPerPage),
-    ]);
+        .limit(itemsPerPage)
+        .exec();
+    } catch (err) {
+      console.log(err);
+    }
+    res.send(data);
   };
-  asyncDbquery().then(() => res.send(data));
+  asyncDbquery();
 };
 export default getProductsAtRoot;
